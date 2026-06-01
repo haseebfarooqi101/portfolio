@@ -1,5 +1,6 @@
 "use client";
 import { motion, AnimatePresence } from "motion/react";
+import { Sun, Moon, Menu, X } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { toggleTheme } from "@/store/slices/themeSlice";
 import { toggleNav, closeNav } from "@/store/slices/navSlice";
@@ -13,87 +14,63 @@ export default function Navbar() {
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b"
-      style={{ backgroundColor: "color-mix(in srgb, var(--bg) 80%, transparent)", borderColor: "var(--border)" }}
+      className="fixed top-0 left-0 right-0 z-50 border-b"
+      style={{ backgroundColor: "var(--bg)", borderColor: "var(--border)" }}
     >
-      <nav className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <motion.a
+      <nav className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
+        <a
           href="#hero"
-          className="text-xl font-bold gradient-text"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          className="text-sm font-semibold tracking-tight"
+          style={{ color: "var(--fg)" }}
         >
-          &lt;DevPortfolio /&gt;
-        </motion.a>
+          M Haseeb Farooqi
+        </a>
 
-        {/* Desktop links */}
+        {/* Desktop */}
         <ul className="hidden md:flex items-center gap-8">
           {links.map((link) => (
             <li key={link}>
-              <motion.a
+              <a
                 href={`#${link.toLowerCase()}`}
-                className="text-sm font-medium opacity-70 hover:opacity-100 transition-opacity"
-                style={{ color: "var(--fg)" }}
-                whileHover={{ y: -2 }}
-                onClick={() => dispatch(closeNav())}
+                className="text-sm transition-opacity hover:opacity-60"
+                style={{ color: "var(--muted)" }}
               >
                 {link}
-              </motion.a>
+              </a>
             </li>
           ))}
         </ul>
 
-        <div className="flex items-center gap-3">
-          {/* Theme toggle */}
+        <div className="flex items-center gap-2">
           <motion.button
             onClick={() => dispatch(toggleTheme())}
-            className="w-9 h-9 rounded-full flex items-center justify-center border"
-            style={{ borderColor: "var(--border)", backgroundColor: "var(--card)" }}
-            whileHover={{ scale: 1.1 }}
+            className="w-8 h-8 flex items-center justify-center rounded-md border"
+            style={{ borderColor: "var(--border)", color: "var(--muted)" }}
             whileTap={{ scale: 0.9 }}
             aria-label="Toggle theme"
           >
-            {isDark ? "☀️" : "🌙"}
+            {isDark ? <Sun size={14} /> : <Moon size={14} />}
           </motion.button>
 
-          {/* Hamburger */}
           <motion.button
-            className="md:hidden w-9 h-9 flex flex-col justify-center items-center gap-1.5"
+            className="md:hidden w-8 h-8 flex items-center justify-center rounded-md border"
+            style={{ borderColor: "var(--border)", color: "var(--muted)" }}
             onClick={() => dispatch(toggleNav())}
-            aria-label="Toggle menu"
             whileTap={{ scale: 0.9 }}
+            aria-label="Toggle menu"
           >
-            <motion.span
-              className="block h-0.5 w-6 rounded"
-              style={{ backgroundColor: "var(--fg)" }}
-              animate={isOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
-              transition={{ duration: 0.2 }}
-            />
-            <motion.span
-              className="block h-0.5 w-6 rounded"
-              style={{ backgroundColor: "var(--fg)" }}
-              animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
-              transition={{ duration: 0.2 }}
-            />
-            <motion.span
-              className="block h-0.5 w-6 rounded"
-              style={{ backgroundColor: "var(--fg)" }}
-              animate={isOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
-              transition={{ duration: 0.2 }}
-            />
+            {isOpen ? <X size={14} /> : <Menu size={14} />}
           </motion.button>
         </div>
       </nav>
 
-      {/* Mobile menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.25 }}
             className="md:hidden overflow-hidden border-t"
             style={{ borderColor: "var(--border)", backgroundColor: "var(--bg)" }}
           >
@@ -102,8 +79,8 @@ export default function Navbar() {
                 <li key={link}>
                   <a
                     href={`#${link.toLowerCase()}`}
-                    className="block text-base font-medium opacity-80 hover:opacity-100"
-                    style={{ color: "var(--fg)" }}
+                    className="text-sm"
+                    style={{ color: "var(--muted)" }}
                     onClick={() => dispatch(closeNav())}
                   >
                     {link}

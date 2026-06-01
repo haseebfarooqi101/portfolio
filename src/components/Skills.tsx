@@ -4,117 +4,65 @@ import { motion } from "motion/react";
 const skillGroups = [
   {
     category: "Frontend",
-    skills: [
-      { name: "React / Next.js", level: 95 },
-      { name: "TypeScript", level: 88 },
-      { name: "Tailwind CSS", level: 92 },
-      { name: "HTML & CSS", level: 98 },
-    ],
+    skills: ["React", "Next.js", "TypeScript", "HTML & CSS", "Tailwind CSS", "Framer Motion"],
   },
   {
-    category: "State & Tools",
-    skills: [
-      { name: "Redux Toolkit", level: 85 },
-      { name: "Git & GitHub", level: 90 },
-      { name: "Framer Motion", level: 80 },
-      { name: "Figma", level: 75 },
-    ],
+    category: "State & Tooling",
+    skills: ["Redux Toolkit", "Git & GitHub", "Figma", "Webpack", "Vite", "ESLint"],
   },
   {
     category: "Backend & Others",
-    skills: [
-      { name: "Node.js", level: 70 },
-      { name: "REST APIs", level: 85 },
-      { name: "PostgreSQL", level: 65 },
-      { name: "Docker", level: 60 },
-    ],
+    skills: ["Node.js", "REST APIs", "PostgreSQL", "Docker", "Vercel", "Firebase"],
   },
-];
-
-const techIcons = [
-  { name: "React", emoji: "⚛️" },
-  { name: "Next.js", emoji: "▲" },
-  { name: "TypeScript", emoji: "🔷" },
-  { name: "Tailwind", emoji: "🎨" },
-  { name: "Redux", emoji: "🔴" },
-  { name: "Node.js", emoji: "🟢" },
-  { name: "Git", emoji: "🐙" },
-  { name: "Figma", emoji: "🖌️" },
 ];
 
 export default function Skills() {
   return (
-    <section id="skills" className="py-24 px-4" style={{ backgroundColor: "color-mix(in srgb, var(--card) 50%, transparent)" }}>
-      <div className="max-w-6xl mx-auto">
+    <section
+      id="skills"
+      className="py-28 px-6 border-t"
+      style={{ borderColor: "var(--border)", backgroundColor: "var(--card)" }}
+    >
+      <div className="max-w-5xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
         >
-          <p className="text-sm font-semibold tracking-widest uppercase mb-2" style={{ color: "var(--accent)" }}>
-            What I Know
-          </p>
-          <h2 className="text-3xl sm:text-5xl font-bold">Skills & Technologies</h2>
+          <p className="section-label">Skills</p>
+          <div className="divider" />
         </motion.div>
 
-        {/* Tech icon pills */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="flex flex-wrap justify-center gap-3 mb-16"
-        >
-          {techIcons.map((tech, i) => (
-            <motion.div
-              key={tech.name}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.07 }}
-              whileHover={{ scale: 1.1, y: -4 }}
-              className="flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-medium"
-              style={{ backgroundColor: "var(--card)", borderColor: "var(--border)", color: "var(--fg)" }}
-            >
-              <span>{tech.emoji}</span>
-              <span>{tech.name}</span>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Skill bars */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
           {skillGroups.map((group, gi) => (
             <motion.div
               key={group.category}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: gi * 0.15 }}
-              className="p-6 rounded-2xl border card-glow"
-              style={{ backgroundColor: "var(--card)", borderColor: "var(--border)" }}
+              transition={{ duration: 0.5, delay: gi * 0.1 }}
             >
-              <h3 className="font-bold text-lg mb-5 gradient-text">{group.category}</h3>
-              <div className="flex flex-col gap-4">
+              <h3 className="text-sm font-semibold mb-4" style={{ color: "var(--fg)" }}>
+                {group.category}
+              </h3>
+              <div className="flex flex-wrap gap-2">
                 {group.skills.map((skill, si) => (
-                  <div key={skill.name}>
-                    <div className="flex justify-between text-sm mb-1">
-                      <span style={{ color: "var(--fg)" }} className="opacity-80">{skill.name}</span>
-                      <span style={{ color: "var(--accent)" }} className="font-semibold">{skill.level}%</span>
-                    </div>
-                    <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: "var(--border)" }}>
-                      <motion.div
-                        className="h-full rounded-full"
-                        style={{ background: "linear-gradient(90deg, var(--accent), var(--accent2))" }}
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${skill.level}%` }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1, delay: gi * 0.15 + si * 0.1, ease: "easeOut" }}
-                      />
-                    </div>
-                  </div>
+                  <motion.span
+                    key={skill}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.3, delay: gi * 0.1 + si * 0.05 }}
+                    className="px-3 py-1.5 rounded-full text-xs font-medium border"
+                    style={{
+                      backgroundColor: "var(--tag-bg)",
+                      color: "var(--tag-fg)",
+                      borderColor: "var(--border)",
+                    }}
+                  >
+                    {skill}
+                  </motion.span>
                 ))}
               </div>
             </motion.div>

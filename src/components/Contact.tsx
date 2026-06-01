@@ -1,89 +1,124 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion } from "motion/react";
+import emailjs from "@emailjs/browser";
+import { Send, Mail } from "lucide-react";
 
-const socials = [
-  { label: "GitHub", href: "#", icon: "🐙" },
-  { label: "LinkedIn", href: "#", icon: "💼" },
-  { label: "Twitter", href: "#", icon: "🐦" },
-  { label: "Email", href: "mailto:alex@example.com", icon: "✉️" },
-];
+const GithubIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+  </svg>
+);
+const LinkedinIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/>
+    <circle cx="4" cy="4" r="2"/>
+  </svg>
+);
+const TwitterIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+  </svg>
+);
+// ─── EmailJS config ───────────────────────────────────────────────
+// 1. Go to https://www.emailjs.com and sign up (free)
+// 2. Add a Gmail service → copy the Service ID below
+// 3. Create an email template with variables: {{from_name}}, {{from_email}}, {{message}}
+//    Set "To Email" in the template to mhaseebfarooqi2@gmail.com
+// 4. Copy your Public Key from Account → API Keys
+const EMAILJS_SERVICE_ID  = "service_i6ljtg4";
+const EMAILJS_TEMPLATE_ID = "template_o7j7f1o";
+const EMAILJS_PUBLIC_KEY  = "exmDqlPVQS_eTE4nm";
+// ──────────────────────────────────────────────────────────────────
+
+type Status = "idle" | "sending" | "success" | "error";
 
 export default function Contact() {
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
-  const [sent, setSent] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+  const [status, setStatus] = useState<Status>("idle");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In production, wire this to an API route or EmailJS
-    setSent(true);
-    setForm({ name: "", email: "", message: "" });
-    setTimeout(() => setSent(false), 4000);
+    if (!formRef.current) return;
+    setStatus("sending");
+    try {
+      await emailjs.sendForm(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        formRef.current,
+        EMAILJS_PUBLIC_KEY
+      );
+      setStatus("success");
+      formRef.current.reset();
+      setTimeout(() => setStatus("idle"), 5000);
+    } catch {
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 4000);
+    }
   };
+
+  const socials = [
+    { icon: <GithubIcon />, href: "https://github.com/haseebfarooqi101", label: "GitHub", newTab: true },
+    { icon: <LinkedinIcon />, href: "https://www.linkedin.com/in/haseeb-farooqi-733364344", label: "LinkedIn", newTab: true },
+    { icon: <Mail size={15} />, href: "mailto:mhaseebfarooqi2@gmail.com?subject=Project%20Inquiry&body=Hi%20Haseeb%2C%0A%0AI%20came%20across%20your%20portfolio%20and%20would%20love%20to%20discuss%20a%20project%20with%20you.%0A%0A", label: "Email", newTab: false },
+  ];
 
   return (
     <section
       id="contact"
-      className="py-24 px-4"
-      style={{ backgroundColor: "color-mix(in srgb, var(--card) 50%, transparent)" }}
+      className="py-28 px-6 border-t"
+      style={{ borderColor: "var(--border)", backgroundColor: "var(--card)" }}
     >
       <div className="max-w-5xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
         >
-          <p className="text-sm font-semibold tracking-widest uppercase mb-2" style={{ color: "var(--accent)" }}>
-            Let&apos;s Talk
-          </p>
-          <h2 className="text-3xl sm:text-5xl font-bold">Get In Touch</h2>
-          <p className="mt-4 opacity-60 max-w-xl mx-auto" style={{ color: "var(--fg)" }}>
-            Have a project in mind or just want to say hi? My inbox is always open.
-          </p>
+          <p className="section-label">Contact</p>
+          <div className="divider" />
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-12">
-          {/* Info */}
+        <div className="grid md:grid-cols-2 gap-16">
+          {/* Left */}
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <h3 className="text-xl font-bold mb-6">Contact Info</h3>
-            <div className="flex flex-col gap-4 mb-8">
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4" style={{ color: "var(--fg)" }}>
+              Let&apos;s work<br />together.
+            </h2>
+            <p className="text-sm leading-relaxed mb-8" style={{ color: "var(--muted)" }}>
+              Have a project in mind or just want to say hi?
+              I&apos;m always open to new opportunities and conversations.
+            </p>
+
+            <div className="flex flex-col gap-3 mb-8">
               {[
-                { icon: "📍", label: "Location", value: "ISB, Pakistan" },
-                { icon: "✉️", label: "Email", value: "mhaseebfarooqi2@gmail.com" },
-                { icon: "📞", label: "Phone", value: "+92 3335369439" },
+                { label: "Location", value: "ISB, Pakistan" },
+                { label: "Email", value: "mhaseebfarooqi2@gmail.com" },
+                { label: "Availability", value: "Open to work" },
               ].map((item) => (
-                <div key={item.label} className="flex items-center gap-4">
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center text-lg shrink-0"
-                    style={{ backgroundColor: "var(--card)", border: "1px solid var(--border)" }}
-                  >
-                    {item.icon}
-                  </div>
-                  <div>
-                    <p className="text-xs opacity-50 uppercase tracking-wider" style={{ color: "var(--fg)" }}>{item.label}</p>
-                    <p className="text-sm font-medium" style={{ color: "var(--fg)" }}>{item.value}</p>
-                  </div>
+                <div key={item.label} className="flex gap-4 text-sm">
+                  <span className="w-24 shrink-0" style={{ color: "var(--muted)" }}>{item.label}</span>
+                  <span style={{ color: "var(--fg)" }}>{item.value}</span>
                 </div>
               ))}
             </div>
 
-            <h3 className="text-xl font-bold mb-4">Follow Me</h3>
             <div className="flex gap-3">
               {socials.map((s) => (
                 <motion.a
                   key={s.label}
                   href={s.href}
                   aria-label={s.label}
-                  className="w-11 h-11 rounded-xl flex items-center justify-center text-xl border"
-                  style={{ backgroundColor: "var(--card)", borderColor: "var(--border)" }}
-                  whileHover={{ scale: 1.15, borderColor: "var(--accent)" }}
+                  target={s.newTab ? "_blank" : undefined}
+                  rel={s.newTab ? "noopener noreferrer" : undefined}
+                  className="w-9 h-9 flex items-center justify-center rounded-lg border transition-colors hover:opacity-60"
+                  style={{ borderColor: "var(--border)", color: "var(--muted)" }}
                   whileTap={{ scale: 0.9 }}
                 >
                   {s.icon}
@@ -94,64 +129,67 @@ export default function Contact() {
 
           {/* Form */}
           <motion.form
+            ref={formRef}
             onSubmit={handleSubmit}
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
             className="flex flex-col gap-4"
           >
             {[
-              { id: "name", label: "Your Name", type: "text", placeholder: "John Doe" },
-              { id: "email", label: "Email Address", type: "email", placeholder: "john@example.com" },
+              { name: "name", label: "Name", type: "text", placeholder: "Your name" },
+              { name: "email", label: "Email", type: "email", placeholder: "your@email.com" },
             ].map((field) => (
-              <div key={field.id}>
-                <label htmlFor={field.id} className="block text-sm font-medium mb-1 opacity-70" style={{ color: "var(--fg)" }}>
+              <div key={field.name}>
+                <label
+                  htmlFor={field.name}
+                  className="block text-xs font-medium mb-1.5"
+                  style={{ color: "var(--muted)" }}
+                >
                   {field.label}
                 </label>
                 <input
-                  id={field.id}
+                  id={field.name}
+                  name={field.name}
                   type={field.type}
                   required
                   placeholder={field.placeholder}
-                  value={form[field.id as "name" | "email"]}
-                  onChange={(e) => setForm({ ...form, [field.id]: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl border text-sm outline-none focus:ring-2 transition-all"
+                  className="w-full px-4 py-2.5 rounded-lg border text-sm outline-none focus:ring-1 transition-all"
                   style={{
-                    backgroundColor: "var(--card)",
+                    backgroundColor: "var(--bg)",
                     borderColor: "var(--border)",
                     color: "var(--fg)",
-                    // @ts-expect-error CSS variable
-                    "--tw-ring-color": "var(--accent)",
                   }}
                 />
               </div>
             ))}
 
             <div>
-              <label htmlFor="message" className="block text-sm font-medium mb-1 opacity-70" style={{ color: "var(--fg)" }}>
+              <label htmlFor="message" className="block text-xs font-medium mb-1.5" style={{ color: "var(--muted)" }}>
                 Message
               </label>
               <textarea
                 id="message"
+                name="message"
                 required
                 rows={5}
                 placeholder="Tell me about your project..."
-                value={form.message}
-                onChange={(e) => setForm({ ...form, message: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl border text-sm outline-none focus:ring-2 transition-all resize-none"
-                style={{ backgroundColor: "var(--card)", borderColor: "var(--border)", color: "var(--fg)" }}
+                className="w-full px-4 py-2.5 rounded-lg border text-sm outline-none focus:ring-1 transition-all resize-none"
+                style={{ backgroundColor: "var(--bg)", borderColor: "var(--border)", color: "var(--fg)" }}
               />
             </div>
 
             <motion.button
               type="submit"
-              className="w-full py-3 rounded-xl font-semibold text-white text-sm"
-              style={{ background: "linear-gradient(135deg, var(--accent), var(--accent2))" }}
-              whileHover={{ scale: 1.02, boxShadow: "0 0 25px rgba(108,99,255,0.4)" }}
-              whileTap={{ scale: 0.98 }}
+              disabled={status === "sending"}
+              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium border transition-all disabled:opacity-50"
+              style={{ backgroundColor: "var(--fg)", color: "var(--bg)", borderColor: "var(--fg)" }}
+              whileHover={{ opacity: 0.85 }}
+              whileTap={{ scale: 0.97 }}
             >
-              {sent ? "✅ Message Sent!" : "Send Message"}
+              <Send size={14} />
+              {status === "sending" ? "Sending..." : status === "success" ? "Message Sent ✓" : status === "error" ? "Failed — Try Again" : "Send Message"}
             </motion.button>
           </motion.form>
         </div>

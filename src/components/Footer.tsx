@@ -1,21 +1,19 @@
 "use client";
-import { motion } from "motion/react";
 
 export default function Footer() {
   return (
     <footer
-      className="py-8 px-4 border-t text-center"
+      className="py-6 px-6 border-t"
       style={{ borderColor: "var(--border)" }}
     >
-      <motion.p
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        className="text-sm opacity-50"
-        style={{ color: "var(--fg)" }}
-      >
-        © {new Date().getFullYear()} M Haseeb Farooqi. Built with Next.js, Redux Toolkit, Tailwind CSS & Framer Motion.
-      </motion.p>
+      <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+        <p className="text-xs" style={{ color: "var(--muted)" }}>
+          © {new Date().getFullYear()} M Haseeb Farooqi
+        </p>
+        <p className="text-xs" style={{ color: "var(--muted)" }}>
+          Built with Next.js · Redux Toolkit · Tailwind · Framer Motion
+        </p>
+      </div>
     </footer>
   );
 }
