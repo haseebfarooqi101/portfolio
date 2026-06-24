@@ -1,57 +1,45 @@
 "use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, GitFork } from "lucide-react";
 
-const categories = ["All", "React", "Next.js", "Full Stack"];
+const categories = ["All", "Next.js", "Full Stack", "HTML/CSS"];
 
 const projects = [
   {
-    title: "E-Commerce Platform",
-    description: "Full-featured store with cart, auth, and Stripe payments.",
-    tags: ["Next.js", "TypeScript", "Tailwind", "Stripe"],
-    category: "Next.js",
-    github: "#",
-    live: "#",
-  },
-  {
-    title: "Task Management App",
-    description: "Drag-and-drop Kanban board with Redux state and real-time sync.",
-    tags: ["React", "Redux", "Firebase"],
-    category: "React",
-    github: "#",
-    live: "#",
-  },
-  {
-    title: "Developer Blog",
-    description: "MDX-powered blog with syntax highlighting and SEO optimization.",
-    tags: ["Next.js", "MDX", "Tailwind"],
-    category: "Next.js",
-    github: "#",
-    live: "#",
-  },
-  {
-    title: "Analytics Dashboard",
-    description: "Real-time social media metrics with interactive charts.",
-    tags: ["React", "Chart.js", "REST API"],
-    category: "React",
-    github: "#",
-    live: "#",
-  },
-  {
-    title: "Chat Application",
-    description: "Real-time messaging with rooms, DMs, and file sharing.",
-    tags: ["Next.js", "Socket.io", "Node.js", "MongoDB"],
+    title: "Netflix Clone",
+    description:
+      "Pixel-perfect Netflix clone that streams a local MKV library with metadata and trailers pulled from TMDB. Features login, profile selector, hero banner, hover preview cards, and a full video player.",
+    tags: ["Next.js", "TypeScript", "Express", "TMDB API", "Tailwind"],
     category: "Full Stack",
-    github: "#",
+    github: "https://github.com/haseebfarooqi101/Netflix-Clone",
     live: "#",
   },
   {
-    title: "Portfolio Generator",
-    description: "SaaS tool to generate portfolio sites from a JSON config.",
-    tags: ["Next.js", "Prisma", "PostgreSQL"],
-    category: "Full Stack",
-    github: "#",
+    title: "Academic Portal",
+    description:
+      "Next.js web app for managing academic workflows. Built with collaborative branching and pull-request-based development.",
+    tags: ["Next.js", "JavaScript", "CSS"],
+    category: "Next.js",
+    github: "https://github.com/haseebfarooqi101/academic-portal",
+    live: "#",
+  },
+  {
+    title: "Prime Video Landing",
+    description:
+      "Responsive pixel-perfect clone of the Amazon Prime Video landing page, built with pure HTML and CSS.",
+    tags: ["HTML", "CSS"],
+    category: "HTML/CSS",
+    github: "https://github.com/haseebfarooqi101/prime-video-landing",
+    live: "https://prime-video-landing.vercel.app",
+  },
+  {
+    title: "Portfolio",
+    description:
+      "This portfolio — built with Next.js, TypeScript, Tailwind CSS, Framer Motion, and Redux Toolkit.",
+    tags: ["Next.js", "TypeScript", "Tailwind", "Redux", "Framer Motion"],
+    category: "Next.js",
+    github: "https://github.com/haseebfarooqi101/portfolio",
     live: "#",
   },
 ];
@@ -110,14 +98,30 @@ export default function Projects() {
                     <h3 className="text-sm font-semibold" style={{ color: "var(--fg)" }}>
                       {project.title}
                     </h3>
-                    <a
-                      href={project.live}
-                      aria-label={`Open ${project.title}`}
-                      className="opacity-30 group-hover:opacity-100 transition-opacity"
-                      style={{ color: "var(--fg)" }}
-                    >
-                      <ArrowUpRight size={16} />
-                    </a>
+                    <div className="flex items-center gap-2">
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`GitHub repo for ${project.title}`}
+                        className="opacity-30 group-hover:opacity-100 transition-opacity"
+                        style={{ color: "var(--fg)" }}
+                      >
+                        <GitFork size={15} />
+                      </a>
+                      {project.live !== "#" && (
+                        <a
+                          href={project.live}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`Live demo of ${project.title}`}
+                          className="opacity-30 group-hover:opacity-100 transition-opacity"
+                          style={{ color: "var(--fg)" }}
+                        >
+                          <ArrowUpRight size={16} />
+                        </a>
+                      )}
+                    </div>
                   </div>
                   <p className="text-xs leading-relaxed mb-4" style={{ color: "var(--muted)" }}>
                     {project.description}
