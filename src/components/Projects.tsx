@@ -22,7 +22,7 @@ const projects = [
     tags: ["Next.js", "JavaScript", "CSS"],
     category: "Next.js",
     github: "https://github.com/haseebfarooqi101/academic-portal",
-    live: "#",
+    live: "https://academic-1.netlify.app/",
   },
   {
     title: "Prime Video Landing",
