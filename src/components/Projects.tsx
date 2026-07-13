@@ -33,15 +33,7 @@ const projects = [
     github: "https://github.com/haseebfarooqi101/prime-video-landing",
     live: "https://prime-video-landing.vercel.app",
   },
-  {
-    title: "Portfolio",
-    description:
-      "This portfolio — built with Next.js, TypeScript, Tailwind CSS, Framer Motion, and Redux Toolkit.",
-    tags: ["Next.js", "TypeScript", "Tailwind", "Redux", "Framer Motion"],
-    category: "Next.js",
-    github: "https://github.com/haseebfarooqi101/portfolio",
-    live: "#",
-  },
+  
 ];
 
 export default function Projects() {
