@@ -6,9 +6,7 @@ import ThemeWrapper from "@/components/ThemeWrapper";
 export const metadata: Metadata = {
   title: "Dev Portfolio | Front-End Developer",
   description: "A modern front-end developer portfolio built with Next.js, Redux Toolkit, Tailwind CSS and Framer Motion.",
-  verification: {
-    google: "-4oMU_LU9jxvEbYZd9Krli9dowFDtlmIkvUGzSOI-Ks",
-  },
+  
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
