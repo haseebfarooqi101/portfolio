@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Providers from "./Providers";
 import ThemeWrapper from "@/components/ThemeWrapper";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: "Dev Portfolio | Front-End Developer",
@@ -15,6 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Providers>
           <ThemeWrapper>{children}</ThemeWrapper>
         </Providers>
+        <Analytics />
       </body>
     </html>
   );
