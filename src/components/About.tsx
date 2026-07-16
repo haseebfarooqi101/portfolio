@@ -64,7 +64,7 @@ export default function About() {
           </h2>
           <p className="text-sm leading-relaxed mb-4" style={{ color: "var(--muted)" }}>
             I&apos;m a front-end developer with a craze for crafting modern web
-            applications. I specialize in React and Next.js, with a strong focus
+            applications. I work with a modern tech stack, creating responsive designs with a strong focus
             on performance, accessibility, and clean code.
           </p>
           <p className="text-sm leading-relaxed mb-8" style={{ color: "var(--muted)" }}>
