@@ -53,7 +53,7 @@ export default function Hero() {
           style={{ color: "var(--muted)" }}
         >
           I build fast, accessible, and beautifully crafted web experiences.
-          Focused on React, Next.js, and thoughtful UI design.
+          creating responsive,user-focused web experiences and thoughtful UI design.
         </motion.p>
 
         <motion.div {...fadeUp(0.45)} className="flex flex-wrap items-center gap-4 mb-16">
