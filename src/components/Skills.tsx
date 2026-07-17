@@ -12,7 +12,7 @@ const skillGroups = [
   },
   {
     category: "Backend & Others",
-    skills: ["Node.js", "REST APIs", "PostgreSQL", "Docker", "Vercel", "Firebase"],
+    skills: ["Node.js", "Vercel", "Firebase"],
   },
 ];
 
