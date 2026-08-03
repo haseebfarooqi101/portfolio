@@ -6,8 +6,9 @@ import ThemeWrapper from "@/components/ThemeWrapper";
 export const metadata: Metadata = {
   title: "Muhammad Haseeb Farooqi | Frontend Developer",
   description: "A modern front-end developer portfolio built with Next.js, Redux Toolkit, Tailwind CSS and Framer Motion.",
+  metadataBase: new URL("https://portfolio-muhammad-haseeb-farooqi-dev.vercel.app"),
   alternates: {
-    canonical: "https://vercel.app",
+    canonical: "/",
   },
   verification: {
         google: "-4oMU_LU9jxvEbYZd9Krli9dowFDtlmIkvUGzSOI-Ks",
